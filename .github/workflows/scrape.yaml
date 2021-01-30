@@ -12,7 +12,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Install illallangi.tripitapi
       run: |-
-        python -m pip install -r requirements.txt
+        python3 -m pip install -r requirements.txt
     - name: Fetch latest data
       env:
         TRIPIT_CLIENT_TOKEN: ${{ secrets.TRIPIT_CLIENT_TOKEN }}
@@ -20,7 +20,7 @@ jobs:
         TRIPIT_ACCESS_TOKEN: ${{ secrets.TRIPIT_ACCESS_TOKEN }}
         TRIPIT_ACCESS_TOKEN_SECRET: ${{ secrets.TRIPIT_ACCESS_TOKEN_SECRET }}
       run: |-
-        python tripit-to-json.py | jq . > tripit.json
+        python3 tripit-to-json.py | jq . > tripit.json
     - name: Commit and push if it changed
       run: |-
         git config user.name "Automated"
