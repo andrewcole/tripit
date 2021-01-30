@@ -1,0 +1,31 @@
+on:
+  push:
+  workflow_dispatch:
+  schedule:
+    - cron:  '46 0 * * *'
+
+jobs:
+  scheduled:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out this repo
+      uses: actions/checkout@v2
+    - name: Install illallangi.tripitapi
+      run: |-
+        python -m pip install -r requirements.txt
+    - name: Fetch latest data
+      env:
+        TRIPIT_CLIENT_TOKEN: ${{ secrets.TRIPIT_CLIENT_TOKEN }}
+        TRIPIT_CLIENT_TOKEN_SECRET: ${{ secrets.TRIPIT_CLIENT_TOKEN_SECRET }}
+        TRIPIT_ACCESS_TOKEN: ${{ secrets.TRIPIT_ACCESS_TOKEN }}
+        TRIPIT_ACCESS_TOKEN_SECRET: ${{ secrets.TRIPIT_ACCESS_TOKEN_SECRET }}
+      run: |-
+        python tripit-to-json.py | jq . > tripit.json
+    - name: Commit and push if it changed
+      run: |-
+        git config user.name "Automated"
+        git config user.email "actions@users.noreply.github.com"
+        git add -A
+        timestamp=$(date -u)
+        git commit -m "Latest data: ${timestamp}" || exit 0
+        git push

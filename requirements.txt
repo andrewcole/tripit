@@ -1,0 +1,1 @@
+illallangi.tripitapi @ git+https://github.com/illallangi/TripitAPI.git
