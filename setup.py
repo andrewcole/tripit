@@ -27,7 +27,12 @@ setup(
         "Operating System :: OS Independent",
     ],
     python_requires=">=3.9.1",
-    entry_points={},
+    entry_points={
+        "console_scripts": [
+            "tripit-json-to-sqlite=illallangi.tripitapi.scripts:json_to_sqlite.cli",
+            "tripit-api-to-json=illallangi.tripitapi.scripts:api_to_json.cli",
+        ],
+    },
     project_urls={
         "Issues": "https://github.com/illallangi/TripItAPI/issues",
         "CI": "https://github.com/illallangi/TripItAPI/actions",
