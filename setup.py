@@ -36,6 +36,7 @@ setup(
     },
     license="MIT License",
     install_requires=[
+        "click",
         "diskcache",
         "loguru",
         "requests",
