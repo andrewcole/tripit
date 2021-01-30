@@ -1,0 +1,19 @@
+{
+  "databases":
+  {
+    "mvs":
+    {
+      "source": "Tripit",
+      "source_url": "https://tripit.com",
+      "tables":
+      {
+        "file":
+        {
+          "description_html": "Tripit",
+          "license": "Copyright Andrew Cole",
+          "license_url": "https://tripit.com"
+        }
+      }
+    }
+  }
+}
