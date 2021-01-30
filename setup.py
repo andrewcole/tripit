@@ -17,7 +17,7 @@ setup(
     author="Andrew Cole",
     author_email="andrew.cole@illallangi.com",
     description="TODO: SET DESCRIPTION",
-    long_description=long_description,
+    long_description=get_long_description(),
     long_description_content_type="text/markdown",
     url="https://github.com/illallangi/TripItAPI",
     packages=find_packages(),
