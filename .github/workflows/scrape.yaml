@@ -23,7 +23,7 @@ jobs:
         TRIPIT_ACCESS_TOKEN: ${{ secrets.TRIPIT_ACCESS_TOKEN }}
         TRIPIT_ACCESS_TOKEN_SECRET: ${{ secrets.TRIPIT_ACCESS_TOKEN_SECRET }}
       run: |-
-        python3 tripit-to-json.py | jq . > tripit.json
+        tripit-api-to-json | jq . > tripit.json
     - name: Commit and push if it changed
       run: |-
         git config user.name "Automated"
