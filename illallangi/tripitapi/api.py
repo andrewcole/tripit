@@ -58,11 +58,12 @@ class API(object):
         return TripCollection(self)
 
     def get(self, url):
+        key = str(url).removeprefix(str(self.endpoint))
         with Cache(self.config_path) as cache:
-            if self.cache and url in cache:
-                logger.debug(f"Cache Hit on  {url}")
+            if self.cache and key in cache:
+                logger.debug(f"Cache Hit on  {key}")
             else:
-                logger.debug(f"Cache Miss on {url}, contacting API")
+                logger.debug(f"Cache Miss on {key}, contacting API")
                 try:
                     r = http_get(
                         url,
@@ -72,11 +73,11 @@ class API(object):
                     r.raise_for_status()
                 except HTTPError as http_err:
                     logger.error(f"HTTP error occurred: {http_err}")
-                    cache.set(url, None, expire=self.failure_expiry)
+                    cache.set(key, None, expire=self.failure_expiry)
                     return
                 except Exception as err:
                     logger.error(f"Other error occurred: {err}")
-                    cache.set(url, None, expire=self.failure_expiry)
+                    cache.set(key, None, expire=self.failure_expiry)
                     return
                 logger.debug(f"Received {len(r.content)} bytes from API")
 
@@ -84,5 +85,5 @@ class API(object):
                 logger.trace(r.request.headers)
                 logger.trace(r.headers)
                 logger.trace(r.text)
-                cache.set(url, r.json(), expire=self.success_expiry)
-            return cache[url]
+                cache.set(key, r.json(), expire=self.success_expiry)
+            return cache[key]
