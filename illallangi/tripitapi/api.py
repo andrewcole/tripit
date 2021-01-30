@@ -43,7 +43,6 @@ class API(object):
             access_token,
             access_token_secret,
         )
-        logger.info(self.auth)
         self.endpoint = URL(endpoint) if not isinstance(endpoint, URL) else endpoint
         self.cache = cache
         self.config_path = get_app_dir(__package__) if not config_path else config_path
