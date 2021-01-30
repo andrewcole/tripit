@@ -26,7 +26,7 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.6",
+    python_requires=">=3.9.1",
     entry_points={},
     project_urls={
         "Issues": "https://github.com/illallangi/TripItAPI/issues",
