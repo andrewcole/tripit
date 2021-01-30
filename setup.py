@@ -12,7 +12,7 @@ def get_long_description():
 
 
 setup(
-    name="",
+    name="illallangi.tripitapi",
     version="0.0.1",
     author="Andrew Cole",
     author_email="andrew.cole@illallangi.com",
