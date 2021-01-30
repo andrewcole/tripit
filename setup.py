@@ -39,6 +39,7 @@ setup(
         "click",
         "diskcache",
         "loguru",
+        "pytz",
         "requests",
         "requests_oauthlib",
         "yarl",
