@@ -1,8 +1,5 @@
-click
 diskcache
 loguru
-peewee
 requests
 requests_oauthlib
-tqdm
 yarl

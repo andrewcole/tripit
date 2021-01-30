@@ -12,14 +12,14 @@ def get_long_description():
 
 
 setup(
-    name="tripit-to-sqlite",
+    name="",
     version="0.0.1",
     author="Andrew Cole",
     author_email="andrew.cole@illallangi.com",
-    description="Create a SQLite database containing your flight history from Tripit",
-    long_description=get_long_description(),
+    description="TODO: SET DESCRIPTION",
+    long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/illallangi/tripit-to-sqlite",
+    url="https://github.com/illallangi/TripItAPI",
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -28,22 +28,18 @@ setup(
     ],
     python_requires=">=3.6",
     entry_points={
-        "console_scripts": ["tripit-to-sqlite=illallangi.tripitsqlite.__main__:cli"],
     },
     project_urls={
-        "Issues": "https://github.com/illallangi/tripit-to-sqlite/issues",
-        "CI": "https://github.com/illallangi/tripit-to-sqlite/actions",
-        "Changelog": "https://github.com/illallangi/tripit-to-sqlite/releases",
+        "Issues": "https://github.com/illallangi/TripItAPI/issues",
+        "CI": "https://github.com/illallangi/TripItAPI/actions",
+        "Changelog": "https://github.com/illallangi/TripItAPI/releases",
     },
     license="MIT License",
     install_requires=[
-        "click",
         "diskcache",
         "loguru",
-        "peewee",
         "requests",
         "requests_oauthlib",
-        "tqdm",
         "yarl",
     ],
 )
