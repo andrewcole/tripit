@@ -27,8 +27,7 @@ setup(
         "Operating System :: OS Independent",
     ],
     python_requires=">=3.6",
-    entry_points={
-    },
+    entry_points={},
     project_urls={
         "Issues": "https://github.com/illallangi/TripItAPI/issues",
         "CI": "https://github.com/illallangi/TripItAPI/actions",
