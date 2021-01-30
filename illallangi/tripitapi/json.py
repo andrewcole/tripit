@@ -19,6 +19,7 @@ class JSONEncoder(encoder):
             return obj.isoformat()
         if isinstance(obj, Air):
             return {
+                "start": obj.start,
                 "segments": obj.segments,
             }
         if isinstance(obj, AirCollection):
