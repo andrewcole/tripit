@@ -1,7 +1,9 @@
+---
+# yamllint disable-line rule:truthy
 on:
   workflow_dispatch:
   schedule:
-    - cron:  '46 0 * * *'
+  - cron: 46 0 * * *
 jobs:
   scrape:
     runs-on: ubuntu-20.04
