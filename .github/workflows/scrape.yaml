@@ -12,7 +12,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Install illallangi.tripitapi
       run: |-
-        python3 -m pip install -r requirements.txt
+        python3 -m pip install git+https://github.com/illallangi/TripitAPI.git
     - name: Fetch latest data
       env:
         TRIPIT_CLIENT_TOKEN: ${{ secrets.TRIPIT_CLIENT_TOKEN }}
