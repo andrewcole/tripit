@@ -43,9 +43,11 @@ setup(
         "click",
         "diskcache",
         "loguru",
+        "peewee",
         "pytz",
         "requests",
         "requests_oauthlib",
+        "tqdm",
         "yarl",
     ],
 )
