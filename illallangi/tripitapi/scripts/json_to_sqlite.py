@@ -114,17 +114,48 @@ def cli(
         """
         CREATE VIEW airport_view AS
             select
-              airport.iata,
-              airport.latitude,
-              airport.longitude,
-              airport.city,
-              airport.country,
-              (SELECT COUNT(id) as numorigin from segment where segment.origin_id = airport.id) +
-              (SELECT COUNT(id) as numorigin from segment where segment.destination_id = airport.id) total
+                airport.iata,
+                airport.latitude,
+                airport.longitude,
+                airport.city,
+                airport.country,
+                (SELECT COUNT(id) as numorigin from segment where segment.origin_id = airport.id) +
+                (SELECT COUNT(id) as numorigin from segment where segment.destination_id = airport.id) total
             from
-              airport
+                airport
             order by
-              total desc
+                total desc
+        """
+    )
+    db.execute_sql(
+        """
+        CREATE VIEW segment_view AS
+            select
+                a1.iata as iata_1,
+                a2.iata as iata_2,
+                r.count
+            from
+                (
+                    select
+                        case
+                            when origin_id < destination_id then origin_id
+                            else destination_id
+                        end as airport1_id,
+                        case
+                            when origin_id < destination_id then destination_id
+                            else origin_id
+                        end as airport2_id,
+                        count(id) as [count]
+                    from
+                        segment
+                    group by
+                        airport1_id,
+                        airport2_id
+                ) as r
+                join airport as a1 on r.airport1_id = a1.id
+                join airport as a2 on r.airport2_id = a2.id
+            order by
+                [count] desc
         """
     )
 
