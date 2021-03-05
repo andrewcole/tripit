@@ -16171,9 +16171,33 @@
             }
           ],
           "start": "2021-03-01T15:55:00+11:00"
-        },
+        }
+      ],
+      "display_name": "Trip from Melbourne to Canberra",
+      "start": "2021-03-01"
+    },
+    {
+      "airs": [
         {
           "segments": [
+            {
+              "destination": {
+                "city": "Sydney",
+                "country": "AU",
+                "iata": "SYD",
+                "latitude": "-33.932922",
+                "longitude": "151.179898"
+              },
+              "end": "2021-03-08T18:50:00+11:00",
+              "origin": {
+                "city": "Melbourne",
+                "country": "AU",
+                "iata": "MEL",
+                "latitude": "-37.673295",
+                "longitude": "144.843013"
+              },
+              "start": "2021-03-08T17:30:00+11:00"
+            },
             {
               "destination": {
                 "city": "Canberra",
@@ -16182,15 +16206,15 @@
                 "latitude": "-35.307350",
                 "longitude": "149.190528"
               },
-              "end": "2021-03-01T16:55:00+11:00",
+              "end": "2021-03-08T20:30:00+11:00",
               "origin": {
-                "city": "Melbourne",
+                "city": "Sydney",
                 "country": "AU",
-                "iata": "MEL",
-                "latitude": "-37.673295",
-                "longitude": "144.843013"
+                "iata": "SYD",
+                "latitude": "-33.932922",
+                "longitude": "151.179898"
               },
-              "start": "2021-03-01T15:55:00+11:00"
+              "start": "2021-03-08T19:35:00+11:00"
             },
             {
               "destination": {
@@ -16200,7 +16224,7 @@
                 "latitude": "-37.673295",
                 "longitude": "144.843013"
               },
-              "end": "2021-03-03T18:40:00+11:00",
+              "end": "2021-03-11T19:40:00+11:00",
               "origin": {
                 "city": "Canberra",
                 "country": "AU",
@@ -16208,14 +16232,14 @@
                 "latitude": "-35.307350",
                 "longitude": "149.190528"
               },
-              "start": "2021-03-03T17:35:00+11:00"
+              "start": "2021-03-11T18:35:00+11:00"
             }
           ],
-          "start": "2021-03-01T15:55:00+11:00"
+          "start": "2021-03-08T17:30:00+11:00"
         }
       ],
-      "display_name": "Trip from Melbourne to Canberra",
-      "start": "2021-03-01"
+      "display_name": "Trip from Melbourne Airport, Melbourne, VI (AU) to Canberra Airport, Canberra, AC (AU)",
+      "start": "2021-03-08"
     }
   ]
 }
