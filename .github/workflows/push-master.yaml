@@ -1,5 +1,5 @@
 ---
-name: Build
+name: Respond to a Push on Master
 # yamllint disable-line rule:truthy
 on:
   push:

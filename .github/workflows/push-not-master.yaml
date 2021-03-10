@@ -1,5 +1,5 @@
 ---
-name: Response to a Push on a branch other than Master
+name: Respond to a Push on a branch other than Master
 # yamllint disable-line rule:truthy
 on:
   push:
