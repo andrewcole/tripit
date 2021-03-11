@@ -92,6 +92,10 @@ class Segment(object):
         )
 
     @cached_property
+    def aircraft(self):
+        return self._dictionary.get("aircraft")
+
+    @cached_property
     def origin(self):
         return Airport(
             iata=self._dictionary["start_airport_code"],
@@ -109,4 +113,11 @@ class Segment(object):
             longitude=self._dictionary["end_airport_longitude"],
             city=self._dictionary["end_city_name"],
             country=self._dictionary["end_country_code"],
+        )
+
+    @cached_property
+    def flight(self):
+        return (
+            self._dictionary.get("operating_airline_code", self._dictionary.get("marketing_airline_code", ""))
+            + self._dictionary.get("operating_flight_number", self._dictionary.get("marketing_flight_number", ""))
         )

@@ -71,6 +71,8 @@ class Segment(BaseModel):
     start = TimestampTzField()
     destination = ForeignKeyField(Airport, backref="origin")
     end = TimestampTzField()
+    aircraft = TextField(null=True)
+    flight = TextField(null=True)
 
 
 @command()
@@ -229,6 +231,8 @@ def cli(
                             defaults={
                                 "destination": sql_destination,
                                 "origin": sql_origin,
+                                "aircraft": json_segment.get("aircraft"),
+                                "flight": json_segment.get("flight"),
                             },
                         )
                         if created:

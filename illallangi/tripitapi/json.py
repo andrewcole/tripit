@@ -42,6 +42,8 @@ class JSONEncoder(encoder):
                 "end": obj.end,
                 "origin": obj.origin,
                 "destination": obj.destination,
+                "aircraft": obj.aircraft,
+                "flight": obj.flight,
             }
         if isinstance(obj, SegmentCollection):
             return sorted(obj, key=lambda o: o.start)
