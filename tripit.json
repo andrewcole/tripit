@@ -17654,51 +17654,6 @@
                 "latitude": "-33.932922",
                 "longitude": "151.179898"
               },
-              "end": "2021-03-08T17:20:00+11:00",
-              "flight": "QF462",
-              "origin": {
-                "city": "Melbourne",
-                "country": "AU",
-                "iata": "MEL",
-                "latitude": "-37.673295",
-                "longitude": "144.843013"
-              },
-              "start": "2021-03-08T16:00:00+11:00"
-            },
-            {
-              "aircraft": "717",
-              "destination": {
-                "city": "Melbourne",
-                "country": "AU",
-                "iata": "MEL",
-                "latitude": "-37.673295",
-                "longitude": "144.843013"
-              },
-              "end": "2021-03-11T19:40:00+11:00",
-              "flight": "QF1561",
-              "origin": {
-                "city": "Canberra",
-                "country": "AU",
-                "iata": "CBR",
-                "latitude": "-35.307350",
-                "longitude": "149.190528"
-              },
-              "start": "2021-03-11T18:35:00+11:00"
-            }
-          ],
-          "start": "2021-03-08T16:00:00+11:00"
-        },
-        {
-          "segments": [
-            {
-              "aircraft": "73H",
-              "destination": {
-                "city": "Sydney",
-                "country": "AU",
-                "iata": "SYD",
-                "latitude": "-33.932922",
-                "longitude": "151.179898"
-              },
               "end": "2021-03-08T18:50:00+11:00",
               "flight": "QF474",
               "origin": {
