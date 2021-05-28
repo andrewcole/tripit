@@ -177,7 +177,7 @@ def cli(
                 json_data["profiles"],
                 unit="profiles",
                 disable=silent,
-                Leave=False,
+                leave=False,
             ):
                 sql_profile, created = Profile.get_or_create(
                     public_display_name=json_profile["public_display_name"],
