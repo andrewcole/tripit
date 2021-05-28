@@ -119,7 +119,7 @@ def cli(
         pragmas={"cache_size": -64 * 1000, "synchronous": 0, "foreign_keys": 1},
     )
     db.connect()
-    db.create_tables([Trip, Air, Segment, Airport])
+    db.create_tables([Profile, Trip, Air, Segment, Airport])
     db.execute_sql(
         """
         CREATE VIEW airport_view AS
