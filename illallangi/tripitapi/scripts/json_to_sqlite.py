@@ -1,6 +1,7 @@
 #!/usr/bin/python
 from datetime import datetime
 from json import load
+from typing import Text
 
 from click import (
     Choice as CHOICE,
@@ -47,9 +48,16 @@ class BaseModel(Model):
         database = db
 
 
+class Profile(BaseModel):
+    public_display_name = TextField()
+    screen_name = TextField()
+    uuid = TextField(unique=True)
+
+
 class Trip(BaseModel):
     start = TextField()
     display_name = TextField()
+    profile = ForeignKeyField(Profile, backref="trips")
 
 
 class Air(BaseModel):
@@ -165,78 +173,95 @@ def cli(
         json_data = load(file)
 
         with db.atomic():
-            for json_trip in tqdm(
-                json_data["trips"],
-                unit="trips",
+            for json_profile in tqdm(
+                json_data["profiles"],
+                unit="profiles",
                 disable=silent,
-                leave=False,
+                Leave=False,
             ):
-                sql_trip, created = Trip.get_or_create(
-                    start=json_trip["start"],
-                    display_name=json_trip["display_name"],
-                    defaults={},
+                sql_profile, created = Profile.get_or_create(
+                    public_display_name=json_profile["public_display_name"],
+                    screen_name=json_profile["screen_name"],
+                    uuid=json_profile["uuid"],
                 )
 
                 if created:
-                    logger.info(f" - Added Trip {sql_trip}")
+                    logger.info(f" - Added Profile {sql_profile}")
 
-                for json_air in tqdm(
-                    json_trip["airs"],
-                    unit="airs",
+                for json_trip in tqdm(
+                    json_profile["trips"],
+                    unit="trips",
                     disable=silent,
                     leave=False,
                 ):
-                    sql_air, created = Air.get_or_create(
-                        trip=sql_trip,
-                        start=json_air["start"],
+                    sql_trip, created = Trip.get_or_create(
+                        start=json_trip["start"],
+                        display_name=json_trip["display_name"],
                         defaults={},
                     )
-                    if created:
-                        logger.info(f"  - Added Air {sql_air}")
 
-                    for json_segment in tqdm(
-                        json_air["segments"],
-                        unit="segments",
+                    if created:
+                        logger.info(f"  - Added Trip {sql_trip}")
+
+                    for json_air in tqdm(
+                        json_trip["airs"],
+                        unit="airs",
                         disable=silent,
                         leave=False,
                     ):
-                        sql_origin, created = Airport.get_or_create(
-                            iata=json_segment["origin"]["iata"],
-                            defaults={
-                                "latitude": json_segment["origin"]["latitude"],
-                                "longitude": json_segment["origin"]["longitude"],
-                                "city": json_segment["origin"]["city"],
-                                "country": json_segment["origin"]["country"],
-                            },
+                        sql_air, created = Air.get_or_create(
+                            trip=sql_trip,
+                            start=json_air["start"],
+                            defaults={},
                         )
                         if created:
-                            logger.info(f"   - Added Airport {sql_origin}")
+                            logger.info(f"   - Added Air {sql_air}")
 
-                        sql_destination, created = Airport.get_or_create(
-                            iata=json_segment["destination"]["iata"],
-                            defaults={
-                                "latitude": json_segment["destination"]["latitude"],
-                                "longitude": json_segment["destination"]["longitude"],
-                                "city": json_segment["destination"]["city"],
-                                "country": json_segment["destination"]["country"],
-                            },
-                        )
-                        if created:
-                            logger.info(f"   - Added Airport {sql_origin}")
+                        for json_segment in tqdm(
+                            json_air["segments"],
+                            unit="segments",
+                            disable=silent,
+                            leave=False,
+                        ):
+                            sql_origin, created = Airport.get_or_create(
+                                iata=json_segment["origin"]["iata"],
+                                defaults={
+                                    "latitude": json_segment["origin"]["latitude"],
+                                    "longitude": json_segment["origin"]["longitude"],
+                                    "city": json_segment["origin"]["city"],
+                                    "country": json_segment["origin"]["country"],
+                                },
+                            )
+                            if created:
+                                logger.info(f"    - Added Airport {sql_origin}")
 
-                        sql_segment, created = Segment.get_or_create(
-                            air=sql_air,
-                            start=json_segment["start"],
-                            end=json_segment["end"],
-                            defaults={
-                                "destination": sql_destination,
-                                "origin": sql_origin,
-                                "aircraft": json_segment.get("aircraft"),
-                                "flight": json_segment.get("flight"),
-                            },
-                        )
-                        if created:
-                            logger.info(f"   - Added Segment {sql_segment}")
+                            sql_destination, created = Airport.get_or_create(
+                                iata=json_segment["destination"]["iata"],
+                                defaults={
+                                    "latitude": json_segment["destination"]["latitude"],
+                                    "longitude": json_segment["destination"][
+                                        "longitude"
+                                    ],
+                                    "city": json_segment["destination"]["city"],
+                                    "country": json_segment["destination"]["country"],
+                                },
+                            )
+                            if created:
+                                logger.info(f"    - Added Airport {sql_destination}")
+
+                            sql_segment, created = Segment.get_or_create(
+                                air=sql_air,
+                                start=json_segment["start"],
+                                end=json_segment["end"],
+                                defaults={
+                                    "destination": sql_destination,
+                                    "origin": sql_origin,
+                                    "aircraft": json_segment.get("aircraft"),
+                                    "flight": json_segment.get("flight"),
+                                },
+                            )
+                            if created:
+                                logger.info(f"    - Added Segment {sql_segment}")
 
 
 if __name__ == "__main__":
