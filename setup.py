@@ -43,6 +43,7 @@ setup(
         "click",
         "diskcache",
         "loguru",
+        "more_itertools",
         "peewee",
         "pytz",
         "requests",

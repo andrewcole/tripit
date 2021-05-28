@@ -1,7 +1,9 @@
-from json import dumps
+from json import dump
 
 from click import (
+    File as FILE,
     STRING,
+    argument,
     command,
     option,
 )
@@ -38,20 +40,20 @@ from illallangi.tripitapi import API, JSONEncoder
     required=True,
     type=STRING,
 )
-def cli(access_token, access_token_secret, client_token, client_token_secret):
-    print(
-        dumps(
-            API(
-                access_token,
-                access_token_secret,
-                client_token,
-                client_token_secret,
-                cache=True,
-            ),
-            cls=JSONEncoder,
-            indent=2,
-            sort_keys=True,
-        )
+@option("--output", default="-", help="File to write to", type=FILE("w", atomic=True))
+def cli(access_token, access_token_secret, client_token, client_token_secret, output):
+    dump(
+        API(
+            access_token,
+            access_token_secret,
+            client_token,
+            client_token_secret,
+            cache=True,
+        ),
+        output,
+        cls=JSONEncoder,
+        indent=2,
+        sort_keys=True,
     )
 
 

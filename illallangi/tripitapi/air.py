@@ -62,3 +62,20 @@ class Air(object):
     @cached_property
     def start(self):
         return sorted(self.segments, key=lambda o: o.start)[0].start
+
+    @cached_property
+    def relative_url(self):
+        return self._dictionary["relative_url"]
+
+    @cached_property
+    def url(self):
+        return self.api.url_endpoint / self.relative_url.strip("/")
+
+    @property
+    def is_valid(self):
+        if len(self.segments) == 0:
+            logger.warning(
+                f"Air {self.id} ({self.url}) is not valid as contains no segment objects, skipping."
+            )
+            return False
+        return True

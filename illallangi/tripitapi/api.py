@@ -1,3 +1,5 @@
+from json import dumps
+
 from functools import cached_property
 
 from click import get_app_dir
@@ -12,11 +14,15 @@ from requests_oauthlib import OAuth1
 
 from yarl import URL
 
+from more_itertools import unique_everseen
+
 from .tripcollection import TripCollection
 
-ENDPOINTDEF = "https://api.tripit.com/v1"
-SUCCESS_EXPIRYDEF = 7 * 24 * 60 * 60
-FAILURE_EXPIRYDEF = 0
+ENDPOINT_DEFAULT = "https://api.tripit.com/v1"
+URL_ENDPOINT_DEFAULT = "http://www.tripit.com"
+
+SUCCESS_EXPIRY_DEFAULT = 7 * 24 * 60 * 60
+FAILURE_EXPIRY_DEFAULT = 0
 
 
 class API(object):
@@ -26,11 +32,12 @@ class API(object):
         access_token_secret,
         client_token,
         client_token_secret,
-        endpoint=ENDPOINTDEF,
+        endpoint=ENDPOINT_DEFAULT,
+        url_endpoint=URL_ENDPOINT_DEFAULT,
         cache=True,
         config_path=None,
-        success_expiry=SUCCESS_EXPIRYDEF,
-        failure_expiry=FAILURE_EXPIRYDEF,
+        success_expiry=SUCCESS_EXPIRY_DEFAULT,
+        failure_expiry=FAILURE_EXPIRY_DEFAULT,
         user_agent="tripit-to-sqlite/0.0.1",
         page_size=25,
         *args,
@@ -44,6 +51,9 @@ class API(object):
             access_token_secret,
         )
         self.endpoint = URL(endpoint) if not isinstance(endpoint, URL) else endpoint
+        self.url_endpoint = (
+            URL(url_endpoint) if not isinstance(url_endpoint, URL) else url_endpoint
+        )
         self.cache = cache
         self.config_path = get_app_dir(__package__) if not config_path else config_path
         self.success_expiry = success_expiry
@@ -56,11 +66,24 @@ class API(object):
     def trips(self):
         return TripCollection(self)
 
+    @property
+    def trip_count(self):
+        return len(self.trips)
+
+    @cached_property
+    def profiles(self):
+        return list(unique_everseen(i.owner for i in self.trips))
+
+    @property
+    def profile_count(self):
+        return len(self.profiles)
+
     def get(self, url):
         key = str(url).removeprefix(str(self.endpoint))
         with Cache(self.config_path) as cache:
             if self.cache and key in cache:
                 logger.debug(f"Cache Hit on  {key}")
+                logger.trace(dumps(cache[key]))
             else:
                 logger.debug(f"Cache Miss on {key}, contacting API")
                 try:

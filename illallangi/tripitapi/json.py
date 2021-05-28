@@ -5,6 +5,7 @@ from .air import Air
 from .aircollection import AirCollection
 from .airport import Airport
 from .api import API
+from .profile import Profile
 from .segment import Segment
 from .segmentcollection import SegmentCollection
 from .trip import Trip
@@ -34,7 +35,17 @@ class JSONEncoder(encoder):
             }
         if isinstance(obj, API):
             return {
+                "profiles": obj.profiles,
+                "profile_count": obj.profile_count,
+                "trips_count": obj.trip_count,
+            }
+        if isinstance(obj, Profile):
+            return {
+                "public_display_name": obj.public_display_name,
+                "screen_name": obj.screen_name,
+                "uuid": obj.uuid,
                 "trips": obj.trips,
+                "trips_count": obj.trip_count,
             }
         if isinstance(obj, Segment):
             return {
@@ -54,5 +65,5 @@ class JSONEncoder(encoder):
                 "display_name": obj.display_name,
             }
         if isinstance(obj, TripCollection):
-            return sorted(obj, key=lambda o: o.start)
+            return sorted([obj[0]], key=lambda o: o.start)
         return super().default(obj)

@@ -7,10 +7,14 @@ class SegmentCollection(Sequence):
     def __init__(self, collection, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._collection = [
-            Segment(dictionary)
-            for dictionary in (
-                collection if isinstance(collection, list) else [collection]
-            )
+            segment
+            for segment in [
+                Segment(dictionary)
+                for dictionary in (
+                    collection if isinstance(collection, list) else [collection]
+                )
+            ]
+            if segment.is_valid
         ]
 
     def __iter__(self):

@@ -33,12 +33,19 @@ class AirCollection(Sequence):
                 if "AirObject" not in result:
                     break
 
-                for o in (
-                    [result["AirObject"]]
-                    if not isinstance(result["AirObject"], list)
-                    else result["AirObject"]
-                ):
-                    self._collection.append(Air(self.api, o))
+                for o in [
+                    air
+                    for air in [
+                        Air(self.api, dictionary)
+                        for dictionary in (
+                            [result["AirObject"]]
+                            if not isinstance(result["AirObject"], list)
+                            else result["AirObject"]
+                        )
+                    ]
+                    if air.is_valid
+                ]:
+                    self._collection.append(o)
                 page_num += 1
                 if page_num > int(result["max_page"]):
                     break

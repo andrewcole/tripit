@@ -34,6 +34,7 @@ class Segment(object):
             "alternate_flights_url",
             "baggage_claim",
             "change_reservation_url",
+            "conflict_resolution_url",
             "customer_support_url",
             "distance",
             "duration",
@@ -117,7 +118,31 @@ class Segment(object):
 
     @cached_property
     def flight(self):
-        return (
-            self._dictionary.get("operating_airline_code", self._dictionary.get("marketing_airline_code", ""))
-            + self._dictionary.get("operating_flight_number", self._dictionary.get("marketing_flight_number", ""))
+        return self._dictionary.get(
+            "operating_airline_code", self._dictionary.get("marketing_airline_code", "")
+        ) + self._dictionary.get(
+            "operating_flight_number",
+            self._dictionary.get("marketing_flight_number", ""),
         )
+
+    @cached_property
+    def relative_url(self):
+        return self._dictionary["relative_url"]
+
+    @cached_property
+    def url(self):
+        return self.api.url_endpoint / self.relative_url.strip("/")
+
+    @property
+    def is_valid(self):
+        if not all(key in self._dictionary for key in ["StartDateTime"]):
+            logger.warning(
+                f'Segment {self._dictionary["id"]} is not valid due to missing keys, skipping.'
+            )
+            return False
+        if "time" not in self._dictionary["StartDateTime"]:
+            logger.warning(
+                f'Segment {self._dictionary["id"]} is not valid due to missing keys in StartDateTime, skipping.'
+            )
+            return False
+        return True
