@@ -195,6 +195,7 @@ def cli(
                     leave=False,
                 ):
                     sql_trip, created = Trip.get_or_create(
+                        profile=sql_profile,
                         start=json_trip["start"],
                         display_name=json_trip["display_name"],
                         defaults={},
