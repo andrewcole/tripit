@@ -1,6 +1,6 @@
 #!/usr/bin/python
 from datetime import datetime
-from json import load
+from json import load, dump
 from typing import Text
 from pathlib import Path
 
@@ -107,11 +107,33 @@ def cli(
         Path(database_path) if not isinstance(database_path, Path) else database_path
     )
 
-    database_path.mkdir(parents=True, exist_ok=True)
+    database_path.resolve()
+    logger.info(f"Creating or updating databases in {database_path}")
 
     for file in files:
+        path = database_path / Path(file.name).stem if Path(file.name).stem != '<stdin>' else database_path
+        path.mkdir(parents=True, exist_ok=True)
         json_data = load(file)
 
+        with open(path / "metadata.json", "w") as output:
+            dump(
+                {
+                    "databases": {
+                        profile["screen_name"]: {
+                            "source": "tripit",
+                            "source_url": "https://tripit.com",
+                            "description_html": "Tripit",
+                            "licence": f"Copyright {profile['public_display_name']}",
+                            "licence_url": "https://tripit.com",
+                        }
+                        for profile in json_data["profiles"]
+                    }
+                },
+                output,
+                indent=2,
+                sort_keys=True,
+            )
+        
         for json_profile in tqdm(
             json_data["profiles"],
             unit="profiles",
@@ -124,7 +146,7 @@ def cli(
 
             # Initialise Database
             db.init(
-                database_path / f"{json_profile['screen_name']}.db",
+                path / f"{json_profile['screen_name']}.db",
                 pragmas={"cache_size": -64 * 1000, "synchronous": 0, "foreign_keys": 1},
             )
             db.connect()
