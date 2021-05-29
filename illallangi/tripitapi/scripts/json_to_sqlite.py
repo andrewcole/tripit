@@ -132,6 +132,11 @@ def cli(
                 db.create_tables([Trip, Air, Segment, Airport])
                 db.execute_sql(
                     """
+                    DROP VIEW IF EXISTS airport_view
+                    """
+                )
+                db.execute_sql(
+                    """
                     CREATE VIEW airport_view AS
                         select
                             airport.iata,
@@ -145,6 +150,11 @@ def cli(
                             airport
                         order by
                             total desc
+                    """
+                )
+                db.execute_sql(
+                    """
+                    DROP VIEW IF EXISTS segment_view
                     """
                 )
                 db.execute_sql(
