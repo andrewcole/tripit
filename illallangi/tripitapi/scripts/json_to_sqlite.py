@@ -184,7 +184,11 @@ def cli(
                     CREATE VIEW segment_view AS
                         select
                             a1.iata as iata_1,
+                            a1.latitude as latitude_1,
+                            a1.longitude as longitude_1,
                             a2.iata as iata_2,
+                            a2.latitude as latitude_2,
+                            a2.longitude as longitude_2,
                             r.count
                         from
                             (
