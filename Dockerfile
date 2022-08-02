@@ -8,10 +8,10 @@ ENV PYTHONUNBUFFERED=1 \
 
 WORKDIR /usr/src/app
 
-ADD requirements.txt .
-RUN pip3 install -r ./requirements.txt
+COPY requirements.txt .
+RUN pip3 install --no-cache-dir -r ./requirements.txt
 
-ADD . /usr/src/app
-RUN pip3 install .
+COPY . /usr/src/app
+RUN pip3 install --no-cache-dir .
 
 ENTRYPOINT ["/usr/local/bin/tripit-api-to-json"]
