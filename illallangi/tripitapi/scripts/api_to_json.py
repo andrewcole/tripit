@@ -44,13 +44,6 @@ from illallangi.tripitapi import API, JSONEncoder
 def cli(access_token, access_token_secret, client_token, client_token_secret, output):
     dump(
        {
-           'api': API(
-                access_token,
-                access_token_secret,
-                client_token,
-                client_token_secret,
-                cache=True,
-            ),
             'access_token': access_token,
             'access_token_secret': access_token_secret,
             'client_token': client_token,
