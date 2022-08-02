@@ -43,13 +43,19 @@ from illallangi.tripitapi import API, JSONEncoder
 @option("--output", default="-", help="File to write to", type=FILE("w", atomic=True))
 def cli(access_token, access_token_secret, client_token, client_token_secret, output):
     dump(
-        API(
-            access_token,
-            access_token_secret,
-            client_token,
-            client_token_secret,
-            cache=True,
-        ),
+       {
+           'api': API(
+                access_token,
+                access_token_secret,
+                client_token,
+                client_token_secret,
+                cache=True,
+            ),
+            'access_token': access_token,
+            'access_token_secret': access_token_secret,
+            'client_token': client_token,
+            'client_token_secret': client_token_secret,
+        },    
         output,
         cls=JSONEncoder,
         indent=2,
